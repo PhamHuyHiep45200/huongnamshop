@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  # nest-api:
+  #   container_name: nest-api
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 5000:5000
+  #   env_file:
+  #     - .env
+  postgresdb:
+    image: postgres:14
+    container_name: postgresdb
+    restart: always
+    environment:
+      - POSTGRES_DB=shop_db
+      - POSTGRES_USER=shop
+      - POSTGRES_PASSWORD=123456
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - '9003:80'
+
+volumes:
+  postgres:
+    driver: local
+  pgadmin:
+    driver: local
